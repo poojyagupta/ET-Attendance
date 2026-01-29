@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState("parent");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -12,41 +13,50 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, role }),
     });
 
     if (!res.ok) {
-      setError("Invalid email");
+      const data = await res.json();
+      setError(data.error || "Registration failed");
       return;
     }
 
-    const data = await res.json();
-    router.push(`/${data.role}`);
+    router.push("/dashboard");
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="border p-6 rounded w-80 space-y-4"
+        className="border p-6 rounded w-96 space-y-4"
       >
-        <h1 className="text-xl font-semibold">Login</h1>
+        <h1 className="text-xl font-semibold">Register</h1>
 
         <input
           type="email"
           required
-          placeholder="Enter email"
+          placeholder="Email"
           className="border px-3 py-2 w-full"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
+        <select
+          className="border px-3 py-2 w-full"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="parent">Parent</option>
+          <option value="teacher">Teacher</option>
+        </select>
+
         {error && <p className="text-red-500">{error}</p>}
 
-        <button className="bg-black text-white w-full py-2">Login</button>
+        <button className="bg-black text-white w-full py-2">Register</button>
       </form>
     </div>
   );
