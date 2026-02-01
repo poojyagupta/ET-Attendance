@@ -61,3 +61,34 @@ export function updateSchedule(updatedSchedule) {
 
   writeDB(db);
 }
+
+export function getAttendance() {
+  const db = readDB();
+  return db.attendance || [];
+}
+
+export function saveTeacherAttendance({ scheduleId, teacherId, date }) {
+  const db = readDB();
+
+  const existing = db.attendance.find(
+    (a) =>
+      a.scheduleId === scheduleId &&
+      a.date === date &&
+      a.teacherId === teacherId,
+  );
+
+  if (existing) {
+    existing.teacherMarked = true;
+  } else {
+    db.attendance.push({
+      id: Date.now().toString(),
+      scheduleId,
+      teacherId,
+      date,
+      teacherMarked: true,
+      parentConfirmed: false,
+    });
+  }
+
+  writeDB(db);
+}
