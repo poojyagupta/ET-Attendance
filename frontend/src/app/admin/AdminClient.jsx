@@ -34,7 +34,7 @@ export default function AdminClient({ users }) {
   }
 
   async function saveSchedule() {
-    await fetch("/api/schedule", {
+    await fetch("/api/schedules", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

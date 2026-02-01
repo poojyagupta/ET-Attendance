@@ -33,7 +33,7 @@
       "name": "poojya",
       "email": "23ai10po45@mitsgwl.ac.in",
       "role": "parent",
-      "status": "pending"
+      "status": "approved"
     }
   ],
   "schedule": [
@@ -41,13 +41,7 @@
       "id": "1769761115515",
       "teacherId": "1769761065194",
       "parentId": "1769700419596",
-      "days": [
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri"
-      ],
+      "days": ["Mon", "Tue", "Wed", "Thu", "Fri"],
       "startTime": "17:00",
       "endTime": "18:48"
     },
@@ -55,19 +49,15 @@
       "id": "1769925933776",
       "teacherId": "1769765681733",
       "parentId": "1769700686253",
-      "days": [
-        "Mon"
-      ],
-      "startTime": "12:35",
-      "endTime": "13:35"
+      "days": ["Mon"],
+      "startTime": "14:35",
+      "endTime": "15:35"
     },
     {
       "id": "1769926271783",
       "teacherId": "1769765681733",
       "parentId": "1769700419596",
-      "days": [
-        "Wed"
-      ],
+      "days": ["Wed"],
       "startTime": "14:41",
       "endTime": "15:41"
     },
@@ -75,9 +65,7 @@
       "id": "1769926590976",
       "teacherId": "1769761065194",
       "parentId": "1769700686253",
-      "days": [
-        "Thu"
-      ],
+      "days": ["Thu"],
       "startTime": "15:46",
       "endTime": "16:46"
     },
@@ -85,11 +73,17 @@
       "id": "1769927055723",
       "teacherId": "1769761065194",
       "parentId": "1769700686253",
-      "days": [
-        "Sun"
-      ],
+      "days": ["Sun"],
       "startTime": "17:54",
       "endTime": "18:54"
+    },
+    {
+      "id": "1769927198868",
+      "teacherId": "1769765681733",
+      "parentId": "1769926772563",
+      "days": ["Thu"],
+      "startTime": "16:56",
+      "endTime": "17:56"
     }
   ],
   "attendance": []

@@ -37,3 +37,27 @@ export function addSchedule(schedule) {
 export function getSchedules() {
   return readDB().schedule;
 }
+
+export function approveUser(id) {
+  const db = readDB();
+
+  const user = db.users.find((u) => u.id === id);
+
+  if (!user) return;
+
+  user.status = "approved";
+
+  writeDB(db);
+}
+
+export function updateSchedule(updatedSchedule) {
+  const db = readDB();
+
+  const index = db.schedule.findIndex((s) => s.id === updatedSchedule.id);
+
+  if (index === -1) return;
+
+  db.schedule[index] = updatedSchedule;
+
+  writeDB(db);
+}
