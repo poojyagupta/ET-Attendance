@@ -67,7 +67,12 @@ export function getAttendance() {
   return db.attendance || [];
 }
 
-export function saveTeacherAttendance({ scheduleId, teacherId, date }) {
+export function saveTeacherAttendance({
+  scheduleId,
+  teacherId,
+  date,
+  status, // "present" | "absent"
+}) {
   const db = readDB();
 
   const existing = db.attendance.find(
@@ -78,17 +83,34 @@ export function saveTeacherAttendance({ scheduleId, teacherId, date }) {
   );
 
   if (existing) {
-    existing.teacherMarked = true;
+    existing.teacherStatus = status;
+    existing.markedByTeacherAt = new Date().toISOString();
   } else {
     db.attendance.push({
       id: Date.now().toString(),
       scheduleId,
       teacherId,
       date,
-      teacherMarked: true,
-      parentConfirmed: false,
+      teacherStatus: status,
+      parentStatus: "pending",
+      markedByTeacherAt: new Date().toISOString(),
     });
   }
+
+  writeDB(db);
+}
+export function saveParentAttendance({ scheduleId, parentId, date, status }) {
+  const db = readDB();
+
+  const existing = db.attendance.find(
+    (a) => a.scheduleId === scheduleId && a.date === date,
+  );
+
+  if (!existing) return; // teacher must mark first
+
+  existing.parentId = parentId;
+  existing.parentStatus = status;
+  existing.confirmedByParentAt = new Date().toISOString();
 
   writeDB(db);
 }

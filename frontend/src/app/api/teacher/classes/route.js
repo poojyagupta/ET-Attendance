@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { getSchedules, getUsers } from "@/lib/db";
+import { getSchedules, getUsers, getAttendance } from "@/lib/db";
 
 export async function GET() {
   try {
@@ -22,6 +22,7 @@ export async function GET() {
 
     const schedules = getSchedules();
     const users = getUsers();
+    const attendance = getAttendance(); // ✅ NEW
 
     const teacherSchedules = schedules.filter((s) => s.teacherId === teacherId);
 
@@ -29,13 +30,28 @@ export async function GET() {
       new Date().getDay()
     ];
 
+    const todayDate = new Date().toISOString().split("T")[0]; // ✅ NEW
+
     const today = teacherSchedules
       .filter((s) => s.days.includes(todayName))
-      .map((s) => ({
-        ...s,
-        parentName: users.find((u) => u.id === s.parentId)?.name || "Unknown",
-        teacherMarked: false,
-      }));
+      .map((s) => {
+        const parent =
+          users.find((u) => u.id === s.parentId)?.name || "Unknown";
+
+        const marked = attendance.find(
+          (a) =>
+            a.scheduleId === s.id &&
+            a.teacherId === teacherId &&
+            a.date === todayDate &&
+            a.teacherMarked === true,
+        );
+
+        return {
+          ...s,
+          parentName: parent,
+          teacherMarked: Boolean(marked), // ✅ FIX
+        };
+      });
 
     const all = teacherSchedules.map((s) => ({
       ...s,

@@ -68,39 +68,63 @@ export default function AdminClient({ users }) {
   return (
     <div className="p-8 space-y-10 bg-gray-50 min-h-screen">
       {/* ================= USERS ================= */}
-      <div className="bg-white p-6 rounded shadow">
-        <h1 className="text-2xl font-bold text-green-700 mb-4">Users</h1>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="px-6 py-4 border-b">
+          <h1 className="text-lg font-semibold text-gray-800">Users</h1>
+        </div>
 
-        <table className="w-full border">
-          <thead className="bg-green-100">
-            <tr>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {users.map((u) => (
-              <tr key={u.id} className="text-center border">
-                <td>{u.email}</td>
-                <td>{u.role}</td>
-                <td>{u.status}</td>
-                <td>
-                  {u.status === "pending" && (
-                    <form action="/api/approve" method="POST">
-                      <input type="hidden" name="id" value={u.id} />
-                      <button className="bg-green-600 text-white px-3 py-1 rounded">
-                        Approve
-                      </button>
-                    </form>
-                  )}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50 sticky top-0 z-10">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Email
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Role
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="bg-white divide-y divide-gray-100">
+              {users.map((u) => (
+                <tr key={u.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm text-gray-900">{u.email}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700 capitalize">
+                    {u.role}
+                  </td>
+                  <td className="px-6 py-4 text-sm">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        u.status === "approved"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}
+                    >
+                      {u.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    {u.status === "pending" && (
+                      <form action="/api/approve" method="POST">
+                        <input type="hidden" name="id" value={u.id} />
+                        <button className="text-sm bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded-md">
+                          Approve
+                        </button>
+                      </form>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* ================= CREATE SCHEDULE ================= */}
@@ -177,41 +201,49 @@ export default function AdminClient({ users }) {
       </div>
 
       {/* ================= SCHEDULE TABLE ================= */}
-      <div className="bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-bold text-green-700 mb-4">Schedules</h2>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="px-6 py-4 border-b">
+          <h2 className="text-lg font-semibold text-gray-800">Schedules</h2>
+        </div>
 
-        <table className="w-full border text-center">
-          <thead className="bg-orange-100">
-            <tr>
-              <th>Teacher</th>
-              <th>Student</th>
-              <th>Days</th>
-              <th>Timing</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {schedules.map((s) => (
-              <tr key={s.id} className="border">
-                <td>{getName(s.teacherId)}</td>
-                <td>{getName(s.parentId)}</td>
-                <td>{s.days?.join(", ")}</td>
-                <td>
-                  {s.startTime} - {s.endTime}
-                </td>
-                <td>
-                  <button
-                    onClick={() => editSchedule(s)}
-                    className="bg-orange-500 text-white px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50 sticky top-0 z-10">
+              <tr>
+                {["Teacher", "Student", "Days", "Timing", "Actions"].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider"
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody className="divide-y divide-gray-100">
+              {schedules.map((s) => (
+                <tr key={s.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm">{getName(s.teacherId)}</td>
+                  <td className="px-6 py-4 text-sm">{getName(s.parentId)}</td>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    {s.days?.join(", ")}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-mono text-gray-700">
+                    {s.startTime} – {s.endTime}
+                  </td>
+                  <td className="px-6 py-4">
+                    <button className="text-sm text-orange-600 hover:underline">
+                      Edit
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

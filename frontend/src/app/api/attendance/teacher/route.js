@@ -4,7 +4,7 @@ import { saveTeacherAttendance } from "@/lib/db";
 
 export async function POST(req) {
   try {
-    // ✅ MUST await
+    // ✅ MUST await cookies()
     const cookieStore = await cookies();
     const sessionCookie = cookieStore.get("session");
 
@@ -27,12 +27,20 @@ export async function POST(req) {
       );
     }
 
+    if (!["present", "absent"].includes(body.status)) {
+      return NextResponse.json(
+        { error: "Invalid attendance status" },
+        { status: 400 },
+      );
+    }
+
     const today = new Date().toISOString().split("T")[0];
 
     saveTeacherAttendance({
       scheduleId: body.scheduleId,
       teacherId: session.id,
       date: today,
+      status: body.status, // ✅ CRITICAL FIX
     });
 
     return NextResponse.json({ success: true });

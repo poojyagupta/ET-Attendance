@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -28,26 +30,56 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form
-        onSubmit={handleSubmit}
-        className="border p-6 rounded w-80 space-y-4"
-      >
-        <h1 className="text-xl font-semibold">Login</h1>
+    <div
+      className="min-h-screen flex items-center justify-center 
+  bg-linear-to-br from-orange-500 via-orange-400 to-green-500 px-4"
+    >
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8">
+        {/* Logo + Title */}
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="rounded-md"
+          />
+          <h1 className="text-2xl font-bold text-gray-800">
+            Attendance System
+          </h1>
+        </div>
 
-        <input
-          type="email"
-          required
-          placeholder="Enter email"
-          className="border px-3 py-2 w-full"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <h2 className="text-lg font-semibold text-center text-gray-700 mb-4">
+          Welcome back
+        </h2>
 
-        {error && <p className="text-red-500">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            required
+            placeholder="Enter your email"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <button className="bg-black text-white w-full py-2">Login</button>
-      </form>
+          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+
+          <button className="w-full py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md transition">
+            Login
+          </button>
+        </form>
+
+        <p className="text-sm text-center text-gray-600 mt-4">
+          Don’t have an account?{" "}
+          <Link
+            href="/register"
+            className="text-orange-500 font-semibold hover:underline"
+          >
+            Register
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

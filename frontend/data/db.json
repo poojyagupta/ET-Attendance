@@ -34,6 +34,48 @@
       "email": "23ai10po45@mitsgwl.ac.in",
       "role": "parent",
       "status": "approved"
+    },
+    {
+      "id": "1769947007455",
+      "name": "nishant gupta",
+      "email": "nish@test.com",
+      "role": "teacher",
+      "status": "approved"
+    },
+    {
+      "id": "1769951649608",
+      "name": "hetal",
+      "email": "h@test.com",
+      "role": "teacher",
+      "status": "approved"
+    },
+    {
+      "id": "1769951694155",
+      "name": "reeta",
+      "email": "ree@test.com",
+      "role": "parent",
+      "status": "approved"
+    },
+    {
+      "id": "1769957300493",
+      "name": "ritesh",
+      "email": "rit@test.com",
+      "role": "parent",
+      "status": "approved"
+    },
+    {
+      "id": "1769957327742",
+      "name": "rit",
+      "email": "ri@test.com",
+      "role": "parent",
+      "status": "pending"
+    },
+    {
+      "id": "1769957718763",
+      "name": "tina",
+      "email": "tina@test.com",
+      "role": "parent",
+      "status": "pending"
     }
   ],
   "schedule": [
@@ -100,6 +142,37 @@
       ],
       "startTime": "16:56",
       "endTime": "17:56"
+    },
+    {
+      "id": "1769946094586",
+      "teacherId": "1769765681733",
+      "parentId": "1769926772563",
+      "days": [
+        "Sun"
+      ],
+      "startTime": "18:11",
+      "endTime": "19:11"
+    },
+    {
+      "id": "1769947047168",
+      "teacherId": "1769947007455",
+      "parentId": "1769926772563",
+      "days": [
+        "Sun"
+      ],
+      "startTime": "20:27",
+      "endTime": "21:27"
+    },
+    {
+      "id": "1769952206523",
+      "teacherId": "1769951649608",
+      "parentId": "1769951694155",
+      "days": [
+        "Sun",
+        "Mon"
+      ],
+      "startTime": "20:00",
+      "endTime": "22:53"
     }
   ],
   "attendance": [
@@ -117,6 +190,44 @@
       "date": "2026-02-01",
       "teacherMarked": true,
       "parentConfirmed": false
+    },
+    {
+      "id": "1769946109775",
+      "scheduleId": "1769946094586",
+      "teacherId": "1769765681733",
+      "date": "2026-02-01",
+      "teacherMarked": true,
+      "parentConfirmed": false,
+      "markedByTeacherAt": "2026-02-01T11:50:07.513Z"
+    },
+    {
+      "id": "1769947061719",
+      "scheduleId": "1769947047168",
+      "teacherId": "1769947007455",
+      "date": "2026-02-01",
+      "teacherStatus": "present",
+      "parentStatus": "present",
+      "markedByTeacherAt": "2026-02-01T11:57:41.719Z",
+      "parentId": "1769926772563",
+      "confirmedByParentAt": "2026-02-01T12:09:16.889Z"
+    },
+    {
+      "id": "1769947083167",
+      "scheduleId": "1769947047168",
+      "parentId": "1769926772563",
+      "date": "2026-02-01",
+      "parentConfirmed": true
+    },
+    {
+      "id": "1769952224479",
+      "scheduleId": "1769952206523",
+      "teacherId": "1769951649608",
+      "date": "2026-02-01",
+      "teacherStatus": "present",
+      "parentStatus": "present",
+      "markedByTeacherAt": "2026-02-01T13:23:44.479Z",
+      "parentId": "1769951694155",
+      "confirmedByParentAt": "2026-02-01T13:24:13.675Z"
     }
   ]
 }

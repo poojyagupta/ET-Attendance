@@ -16,7 +16,12 @@ export default function TeacherClient() {
         return r.json();
       })
       .then((data) => {
-        setToday(data.today);
+        setToday(
+          data.today.map((c) => ({
+            ...c,
+            teacherStatus: c.teacherStatus || "pending",
+          })),
+        );
         setAll(data.all);
         setLoading(false);
       })
@@ -26,13 +31,14 @@ export default function TeacherClient() {
       });
   }, []);
 
-  async function markAttendance(scheduleId) {
+  async function markAttendance(scheduleId, status) {
     try {
       const res = await fetch("/api/attendance/teacher", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           scheduleId,
+          status, // "present" | "absent"
           date: todayDate,
         }),
       });
@@ -42,7 +48,7 @@ export default function TeacherClient() {
       // ✅ Update UI without reload
       setToday((prev) =>
         prev.map((c) =>
-          c.id === scheduleId ? { ...c, teacherMarked: true } : c,
+          c.id === scheduleId ? { ...c, teacherStatus: status } : c,
         ),
       );
     } catch (err) {
@@ -72,27 +78,45 @@ export default function TeacherClient() {
                 <th>Attendance</th>
               </tr>
             </thead>
+
             <tbody>
               {today.map((c) => (
                 <tr key={c.id} className="text-center border">
                   <td>{c.parentName}</td>
+
                   <td>
                     {c.startTime} – {c.endTime}
                   </td>
+
                   <td>
-                    {c.teacherMarked ? (
-                      <span className="text-green-600 font-semibold">
-                        Present ✓
-                      </span>
-                    ) : (
+                    {c.teacherStatus === "pending" ? (
                       <div className="flex justify-center gap-3">
                         <button
-                          onClick={() => markAttendance(c.id)}
+                          onClick={() => markAttendance(c.id, "present")}
                           className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
                         >
-                          Mark Present
+                          Present
+                        </button>
+
+                        <button
+                          onClick={() => markAttendance(c.id, "absent")}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                        >
+                          Absent
                         </button>
                       </div>
+                    ) : (
+                      <span
+                        className={`font-semibold ${
+                          c.teacherStatus === "present"
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {c.teacherStatus === "present"
+                          ? "Present ✓"
+                          : "Absent ✗"}
+                      </span>
                     )}
                   </td>
                 </tr>
@@ -114,6 +138,7 @@ export default function TeacherClient() {
               <th>Time</th>
             </tr>
           </thead>
+
           <tbody>
             {all.map((c) => (
               <tr key={c.id} className="text-center border">

@@ -24,14 +24,18 @@ export default function ParentClient() {
       });
   }, []);
 
-  async function confirmAttendance(scheduleId) {
+  async function confirmAttendance(scheduleId, status) {
     await fetch("/api/attendance/confirm", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ scheduleId }),
+      body: JSON.stringify({ scheduleId, status }),
     });
 
-    alert("Attendance confirmed");
+    setToday((prev) =>
+      prev.map((c) =>
+        c.id === scheduleId ? { ...c, parentStatus: status } : c,
+      ),
+    );
   }
 
   if (loading) return <div className="p-6">Loading…</div>;
@@ -60,11 +64,34 @@ export default function ParentClient() {
                   <td>
                     {c.startTime} – {c.endTime}
                   </td>
+
                   <td>
-                    <input
-                      type="checkbox"
-                      onChange={() => confirmAttendance(c.id)}
-                    />
+                    {c.parentStatus ? (
+                      <span
+                        className={`font-semibold ${
+                          c.parentStatus === "present"
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {c.parentStatus.toUpperCase()} ✓
+                      </span>
+                    ) : (
+                      <div className="flex justify-center gap-3">
+                        <button
+                          onClick={() => confirmAttendance(c.id, "present")}
+                          className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded"
+                        >
+                          Present
+                        </button>
+                        <button
+                          onClick={() => confirmAttendance(c.id, "absent")}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                        >
+                          Absent
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
