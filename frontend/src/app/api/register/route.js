@@ -1,27 +1,28 @@
 import { NextResponse } from "next/server";
-import { users } from "@/lib/users";
+import { getUsers, addUser } from "@/lib/db";
 
 export async function POST(req) {
-  const { email, role } = await req.json();
+  const { name, email, role } = await req.json();
 
-  if (!email || !role) {
+  if (!name || !email || !role) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
-  // Check if user already exists
-  const existing = users.find((u) => u.email === email);
-  if (existing) {
-    return NextResponse.json({ error: "User already exists" }, { status: 409 });
+  const users = getUsers();
+
+  if (users.find((u) => u.email === email)) {
+    return NextResponse.json({ error: "User exists" }, { status: 409 });
   }
 
   const user = {
-    id: `U${Date.now()}`,
+    id: Date.now().toString(),
+    name,
     email,
     role,
     status: "pending",
   };
 
-  users.push(user);
+  addUser(user);
 
   const res = NextResponse.json({ success: true });
 
@@ -32,11 +33,7 @@ export async function POST(req) {
       role: user.role,
       status: user.status,
     }),
-    {
-      httpOnly: true,
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-    },
+    { path: "/", maxAge: 60 * 60 * 24 * 30 },
   );
 
   return res;

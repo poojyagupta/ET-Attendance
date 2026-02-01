@@ -1,28 +1,66 @@
 import { NextResponse } from "next/server";
+import { getUsers } from "@/lib/db";
 
-// TEMP users (we'll replace with Google Sheets later)
-const USERS = {
-  "admin@test.com": { id: "A1", role: "admin" },
-  "teacher@test.com": { id: "T1", role: "teacher" },
-  "parent@test.com": { id: "P1", role: "parent" },
-};
+const ADMIN_EMAIL = "admin@test.com";
 
 export async function POST(req) {
   const { email } = await req.json();
 
-  const user = USERS[email];
-
-  if (!user) {
-    return NextResponse.json({ error: "Invalid email" }, { status: 401 });
+  if (!email) {
+    return NextResponse.json({ error: "Email required" }, { status: 400 });
   }
 
-  const res = NextResponse.json({ role: user.role });
+  // ✅ HARDCODED ADMIN
+  if (email === ADMIN_EMAIL) {
+    const res = NextResponse.json({
+      role: "admin",
+      status: "approved",
+    });
 
-  res.cookies.set("session", JSON.stringify(user), {
-    httpOnly: true,
-    path: "/",
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    res.cookies.set(
+      "session",
+      JSON.stringify({
+        id: "ADMIN1",
+        role: "admin",
+        status: "approved",
+      }),
+      {
+        httpOnly: true,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 30,
+      },
+    );
+
+    return res;
+  }
+
+  // ✅ NORMAL USERS
+  const users = getUsers();
+
+  const user = users.find((u) => u.email === email);
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 401 });
+  }
+
+  const res = NextResponse.json({
+    role: user.role,
+    status: user.status,
   });
+
+  res.cookies.set(
+    "session",
+    JSON.stringify({
+      id: user.id,
+      role: user.role,
+      status: user.status,
+    }),
+    {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    },
+  );
 
   return res;
 }

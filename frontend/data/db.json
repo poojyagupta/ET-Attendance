@@ -1,0 +1,96 @@
+{
+  "users": [
+    {
+      "id": "1769700419596",
+      "name": "rishi",
+      "email": "text@example.com",
+      "role": "parent",
+      "status": "approved"
+    },
+    {
+      "id": "1769700686253",
+      "name": "riya",
+      "email": "riya@test.com",
+      "role": "parent",
+      "status": "approved"
+    },
+    {
+      "id": "1769761065194",
+      "name": "ravi",
+      "email": "test@test.com",
+      "role": "teacher",
+      "status": "approved"
+    },
+    {
+      "id": "1769765681733",
+      "name": "hritik",
+      "email": "hri@test.com",
+      "role": "teacher",
+      "status": "approved"
+    },
+    {
+      "id": "1769926772563",
+      "name": "poojya",
+      "email": "23ai10po45@mitsgwl.ac.in",
+      "role": "parent",
+      "status": "pending"
+    }
+  ],
+  "schedule": [
+    {
+      "id": "1769761115515",
+      "teacherId": "1769761065194",
+      "parentId": "1769700419596",
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri"
+      ],
+      "startTime": "17:00",
+      "endTime": "18:48"
+    },
+    {
+      "id": "1769925933776",
+      "teacherId": "1769765681733",
+      "parentId": "1769700686253",
+      "days": [
+        "Mon"
+      ],
+      "startTime": "12:35",
+      "endTime": "13:35"
+    },
+    {
+      "id": "1769926271783",
+      "teacherId": "1769765681733",
+      "parentId": "1769700419596",
+      "days": [
+        "Wed"
+      ],
+      "startTime": "14:41",
+      "endTime": "15:41"
+    },
+    {
+      "id": "1769926590976",
+      "teacherId": "1769761065194",
+      "parentId": "1769700686253",
+      "days": [
+        "Thu"
+      ],
+      "startTime": "15:46",
+      "endTime": "16:46"
+    },
+    {
+      "id": "1769927055723",
+      "teacherId": "1769761065194",
+      "parentId": "1769700686253",
+      "days": [
+        "Sun"
+      ],
+      "startTime": "17:54",
+      "endTime": "18:54"
+    }
+  ],
+  "attendance": []
+}
