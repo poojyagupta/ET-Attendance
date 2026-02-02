@@ -9,7 +9,8 @@ export default function Navbar() {
 
   const isLoginPage = pathname === "/login";
   const isRegisterPage = pathname === "/register";
-  const isAuthPage = isLoginPage || isRegisterPage;
+  const isLandingPage = pathname === "/";
+  const isAuthPage = isLoginPage || isRegisterPage || isLandingPage;
 
   const handleLogout = async () => {
     await fetch("/api/logout");
@@ -35,7 +36,7 @@ export default function Navbar() {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
-          {/* 👇 Register button on Login page */}
+          {/* Register on Login */}
           {isLoginPage && (
             <button
               onClick={() => router.push("/register")}
@@ -47,7 +48,7 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* 👇 Login button on Register page */}
+          {/* Login on Register */}
           {isRegisterPage && (
             <button
               onClick={() => router.push("/login")}
@@ -59,7 +60,7 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* 👇 Logout everywhere else */}
+          {/* Logout everywhere except landing/login/register */}
           {!isAuthPage && (
             <button
               onClick={handleLogout}

@@ -65,15 +65,21 @@ export default function AdminClient({ users }) {
     users.find((u) => u.id === id)?.name ||
     users.find((u) => u.id === id)?.email;
 
+  const sortedUsers = [...users].sort((a, b) => {
+    if (a.status === "pending" && b.status !== "pending") return -1;
+    if (a.status !== "pending" && b.status === "pending") return 1;
+    return 0;
+  });
+
   return (
-    <div className="p-8 space-y-10 bg-gray-50 min-h-screen">
+    <div className="p-8 py-18 space-y-10 bg-gray-50 min-h-screen">
       {/* ================= USERS ================= */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="px-6 py-4 border-b">
           <h1 className="text-lg font-semibold text-gray-800">Users</h1>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-y-auto max-h-[60vh]">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
@@ -93,7 +99,7 @@ export default function AdminClient({ users }) {
             </thead>
 
             <tbody className="bg-white divide-y divide-gray-100">
-              {users.map((u) => (
+              {sortedUsers.map((u) => (
                 <tr key={u.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 text-sm text-gray-900">{u.email}</td>
                   <td className="px-6 py-4 text-sm text-gray-700 capitalize">
@@ -206,7 +212,7 @@ export default function AdminClient({ users }) {
           <h2 className="text-lg font-semibold text-gray-800">Schedules</h2>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-y-auto max-h-[60vh]">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>

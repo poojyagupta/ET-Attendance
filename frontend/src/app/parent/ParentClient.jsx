@@ -41,13 +41,13 @@ export default function ParentClient() {
   if (loading) return <div className="p-6">Loading…</div>;
 
   return (
-    <div className="p-8 space-y-10">
+    <div className="p-8 py-20 space-y-10">
       {/* TODAY */}
-      <div className="bg-white p-6 rounded shadow">
+      <div className="bg-white p-6 rounded shadow overflow-x-auto overflow-y-auto max-h-[60vh]">
         <h1 className="text-xl font-semibold mb-4">Today’s Class</h1>
 
         {today.length === 0 ? (
-          <p className="text-gray-500">No class today 🎉</p>
+          <p className="text-gray-500">No class today!</p>
         ) : (
           <table className="w-full border text-center">
             <thead>
@@ -104,7 +104,7 @@ export default function ParentClient() {
       <div className="bg-white p-6 rounded shadow">
         <h2 className="text-lg font-semibold mb-4">All Schedules</h2>
 
-        <table className="w-full border text-center">
+        <table className="w-full border text-center overflow-x-auto overflow-y-auto max-h-[60vh]">
           <thead>
             <tr>
               <th>Teacher</th>

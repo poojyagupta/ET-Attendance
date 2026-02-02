@@ -62,7 +62,7 @@ export default function TeacherClient() {
   }
 
   return (
-    <div className="p-8 space-y-10">
+    <div className="p-8 py-20 space-y-10">
       {/* ===== TODAY'S CLASSES ===== */}
       <div className="bg-white p-6 rounded shadow">
         <h1 className="text-xl font-semibold mb-4">Today’s Classes</h1>
@@ -70,7 +70,7 @@ export default function TeacherClient() {
         {today.length === 0 ? (
           <p className="text-gray-500">No classes today 🎉</p>
         ) : (
-          <table className="w-full border">
+          <table className="w-full border overflow-x-auto overflow-y-auto max-h-[60vh]">
             <thead>
               <tr>
                 <th>Student</th>
@@ -130,7 +130,7 @@ export default function TeacherClient() {
       <div className="bg-white p-6 rounded shadow">
         <h2 className="text-lg font-semibold mb-4">All My Schedules</h2>
 
-        <table className="w-full border">
+        <table className="w-full border overflow-x-auto overflow-y-auto max-h-[60vh]">
           <thead>
             <tr>
               <th>Student</th>
